@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      message : 'Todo App',
+      newTodo: ''
+    };
+  }
+  newTodoChanged(event){
+    this.setState({
+      newTodo: event.target.value
+     })
+  }
+
+  formSubmitted(event){
+    event.preventDefault();
+    console.log(this.state.newTodo);
+  }
+
+
+  render() {
+    return (
+      <div className="App">
+        <h3>{this.state.message}</h3>
+        <form onSubmit={(event) => this.formSubmitted(event)}>  
+        <label  htmlFor="newTodo">New Todo</label>
+        <input onChange={(event) => this.newTodoChanged(event)} id="newTodo" />
+        <button type="submit">Add Todo</button></form>
+      </div>
+    );
+  }
 }
 
 export default App;
