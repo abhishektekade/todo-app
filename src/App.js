@@ -5,7 +5,8 @@ class App extends Component {
     super();
     this.state = {
       message : 'Todo App',
-      newTodo: ''
+      newTodo: '',
+      todos: []
     };
   }
   newTodoChanged(event){
@@ -16,7 +17,24 @@ class App extends Component {
 
   formSubmitted(event){
     event.preventDefault();
-    console.log(this.state.newTodo);
+    this.setState({
+      newTodo: '',
+      todos: [...this.state.todos,  {
+        title: this.state.newTodo,
+        done: false
+      }]
+     });
+  }
+  toggleTodoDone(event){
+    console.log(event.target.checked)
+    const todos = [...this.state.todos]
+    this.setState({
+      newTodo: '',
+      todos: [...this.state.todos,  {
+        title: this.state.newTodo,
+        done: false
+      }]
+     });
   }
 
 
@@ -26,8 +44,14 @@ class App extends Component {
         <h3>{this.state.message}</h3>
         <form onSubmit={(event) => this.formSubmitted(event)}>  
         <label  htmlFor="newTodo">New Todo</label>
-        <input onChange={(event) => this.newTodoChanged(event)} id="newTodo" />
-        <button type="submit">Add Todo</button></form>
+        <input onChange={(event) => this.newTodoChanged(event)} id="newTodo" value={this.state.newTodo}/>
+        <button type="submit">Add Todo</button>
+        </form>
+        <ul>{this.state.todos.map((todo, index)=>{
+          return (<li key={todo.title} >
+            <input onChange={(event) => this.toggleTodoDone(event, index)} type="checkbox"/>{todo.title}
+            </li>)
+        })}</ul>
       </div>
     );
   }
